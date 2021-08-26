@@ -1,6 +1,5 @@
 var timeLeft = 0;
 var score = 0;
-var selected = "";
 
 var timeContainer = document.querySelector("#counter");
 var questionContainer = document.querySelector("#questions");
@@ -21,9 +20,8 @@ ansEl4.className = "btn answer-option";
 ansEl4.value = "d";
 
 var loadPage = function () {
-  questionContainer.innerHTML = "<h1>Coding Quiz Challenge</h1>";
-  answerContainer.innerHTML =
-    "<p>Try to answer the following code-related questions within the time limit <br> Keep in mind that incorrect answers will penalize your score/time <br>By ten seconds!</p>";
+  questionContainer.innerHTML =
+    "<h1>Coding Quiz Challenge</h1> <br> <p>Try to answer the following code-related questions within the time limit <br> Keep in mind that incorrect answers will penalize your score/time <br>By ten seconds!</p>";
 
   var quizBtn = document.createElement("button");
   quizBtn.className = "btn start-quiz";
@@ -41,6 +39,7 @@ var quizCountdown = function () {
   questionContainer.innerHTML = "";
   answerContainer.innerHTML = "";
   resultContainer.innerHTML = "";
+
   loadQuestion1();
 
   var timeInterval = setInterval(function (event) {
@@ -49,24 +48,17 @@ var quizCountdown = function () {
       quizEnd();
     } else if (timeLeft > 1) {
       timeLeft--;
-      var countDown = "Time left " + timeLeft;
+      var countDown = "Time: " + timeLeft;
       timeContainer.textContent = countDown;
     } else if (timeLeft === 1) {
       timeLeft--;
-      var countDown = "Time left " + timeLeft;
+      var countDown = "Time: " + timeLeft;
       timeContainer.textContent = countDown;
       alert("Your time has ended, click ok to see your score.");
       clearInterval(timeInterval);
+      quizEnd();
     }
   }, 1000);
-};
-
-var questionListener = function () {
-  answerContainer.addEventListener("click", function (event) {
-    selected = event.target.value;
-    console.log(selected);
-    return selected;
-  });
 };
 
 var quiz = [
@@ -112,7 +104,7 @@ var quiz = [
   },
   {
     q: "A very useful tool used during development and debugging for printing content to the debugger is:",
-    O: {
+    o: {
       a: "1. JavaScript",
       b: "2. terminal/bash",
       c: "3. for loops",
@@ -124,8 +116,9 @@ var quiz = [
 
 var loadQuestion1 = function () {
   console.log("question 1 loaded");
-  console.log(selected);
-  questionContainer.innerHTML = "<h1>" + quiz[0].q + "</h1>";
+
+  questionContainer.innerHTML =
+    "<h1 class='questionaire'>" + quiz[0].q + "</h1>";
   ansEl1.textContent = quiz[0].o.a;
   ansEl2.textContent = quiz[0].o.b;
   ansEl3.textContent = quiz[0].o.c;
@@ -136,126 +129,195 @@ var loadQuestion1 = function () {
   answerContainer.appendChild(ansEl3);
   answerContainer.appendChild(ansEl4);
 
-  questionListener();
+  answerContainer.addEventListener(
+    "click",
+    function (event) {
+      var ans1 = event.target.value;
 
-  // answerContainer.addEventListener("click", function (event) {
-  //   selected = event.target.value;
-  //   console.log(selected);
+      if (ans1 === quiz[0].s) {
+        correctAnswer();
+        console.log(timeLeft);
+        score = timeLeft;
+        console.log(score);
 
-  if (!selected) {
-    resultContainer.innerHTML = "";
-    return;
-  } else if (selected === quiz[0].s) {
-    resultContainer.innerHTML = "<h2>Correct!</h2>";
-    console.log(timeLeft);
-
-    score = timeLeft;
-    console.log(score);
-    loadQuestion2();
-  } else {
-    resultContainer.innerHTML = "<h2>Wrong!</h2>";
-    timeLeft = timeLeft - 10;
-    console.log(timeLeft);
-    score = timeLeft;
-    console.log(score);
-    loadQuestion2();
-  }
-  // });
+        loadQuestion2();
+      } else {
+        wrongAnswer();
+        timeLeft = timeLeft - 10;
+        console.log(timeLeft);
+        score = timeLeft;
+        console.log(score);
+        loadQuestion2();
+      }
+    },
+    { once: true }
+  );
 };
 
 var loadQuestion2 = function () {
   console.log("question 2 loaded");
   selected = "";
-  questionContainer.innerHTML = "<h1>" + quiz[1].q + "</h1>";
+  questionContainer.innerHTML =
+    "<h1 class='questionaire'>" + quiz[1].q + "</h1>";
   ansEl1.textContent = quiz[1].o.a;
   ansEl2.textContent = quiz[1].o.b;
   ansEl3.textContent = quiz[1].o.c;
   ansEl4.textContent = quiz[1].o.d;
 
-  // answerContainer.addEventListener("click", function (event) {
-  //   selected = event.target.value;
-  //   console.log(selected);
+  answerContainer.addEventListener(
+    "click",
+    function (event) {
+      var ans2 = event.target.value;
+      console.log(ans2);
 
-  if (selected === quiz[1].s) {
-    resultContainer.innerHTML = "<h2>Correct!</h2>";
-    // loadQuestion3();
-  } else {
-    resultContainer.innerHTML = "<h2>Wrong!</h2>";
-    timeLeft = timeLeft - 10;
-    // loadQuestion3();
-  }
-  // });
+      if (ans2 === quiz[1].s) {
+        correctAnswer();
+        console.log(timeLeft);
+        score = timeLeft;
+        console.log(score);
+        loadQuestion3();
+      } else {
+        wrongAnswer();
+        timeLeft = timeLeft - 10;
+        console.log(timeLeft);
+        score = timeLeft;
+        console.log(score);
+        loadQuestion3();
+      }
+    },
+    { once: true }
+  );
 };
 
-// var loadQuestion3 = function () {
-//   console.log("question 3 loaded");
-//   questionContainer.innerHTML = "<h1>" + quiz[2].q + "</h1>";
-//   ansEl1.textContent = quiz[2].o.a;
-//   ansEl2.textContent = quiz[2].o.b;
-//   ansEl3.textContent = quiz[2].o.c;
-//   ansEl4.textContent = quiz[2].o.d;
+var loadQuestion3 = function () {
+  console.log("question 3 loaded");
+  questionContainer.innerHTML =
+    "<h1 class='questionaire'>" + quiz[2].q + "</h1>";
+  ansEl1.textContent = quiz[2].o.a;
+  ansEl2.textContent = quiz[2].o.b;
+  ansEl3.textContent = quiz[2].o.c;
+  ansEl4.textContent = quiz[2].o.d;
 
-//   answerContainer.addEventListener("click", function (event) {
-//     selected = event.target.value;
-//     console.log(selected);
+  answerContainer.addEventListener(
+    "click",
+    function (event) {
+      var ans3 = event.target.value;
+      console.log(ans3);
 
-//     if (selected === quiz[2].s) {
-//       resultContainer.innerHTML = "<h2>Correct!</h2>";
-//       loadQuestion4();
-//     } else {
-//       resultContainer.innerHTML = "<h2>Wrong!</h2>";
-//       timeLeft = timeLeft - 10;
-//       loadQuestion4();
-//     }
-//   });
-// };
+      if (ans3 === quiz[2].s) {
+        correctAnswer();
+        console.log(timeLeft);
+        score = timeLeft;
+        console.log(score);
+        loadQuestion4();
+      } else {
+        wrongAnswer();
+        timeLeft = timeLeft - 10;
+        console.log(timeLeft);
+        score = timeLeft;
+        console.log(score);
+        loadQuestion4();
+      }
+    },
+    { once: true }
+  );
+};
 
-// var loadQuestion4 = function () {
-//   questionContainer.innerHTML = "<h1>" + quiz[3].q + "</h1>";
-//   ansEl1.textContent = quiz[3].o.a;
-//   ansEl2.textContent = quiz[3].o.b;
-//   ansEl3.textContent = quiz[3].o.c;
-//   ansEl4.textContent = quiz[3].o.d;
+var loadQuestion4 = function () {
+  questionContainer.innerHTML =
+    "<h1 class='questionaire'>" + quiz[3].q + "</h1>";
+  ansEl1.textContent = quiz[3].o.a;
+  ansEl2.textContent = quiz[3].o.b;
+  ansEl3.textContent = quiz[3].o.c;
+  ansEl4.textContent = quiz[3].o.d;
 
-//   answerContainer.addEventListener("click", function (event) {
-//     selected = event.target.value;
-//     console.log(selected);
+  answerContainer.addEventListener(
+    "click",
+    function (event) {
+      var ans4 = event.target.value;
+      console.log(ans4);
 
-//     if (selected === quiz[3].s) {
-//       resultContainer.innerHTML = "<h2>Correct!</h2>";
-//       loadQuestion5();
-//     } else {
-//       resultContainer.innerHTML = "<h2>Wrong!</h2>";
-//       timeLeft = timeLeft - 10;
-//       loadQuestion5();
-//     }
-//   });
-// };
+      if (ans4 === quiz[3].s) {
+        correctAnswer();
+        console.log(timeLeft);
+        score = timeLeft;
+        console.log(score);
+        loadQuestion5();
+      } else {
+        wrongAnswer();
+        timeLeft = timeLeft - 10;
+        console.log(timeLeft);
+        score = timeLeft;
+        console.log(score);
+        loadQuestion5();
+      }
+    },
+    { once: true }
+  );
+};
 
-// var loadQuestion5 = function () {
-//   questionContainer.innerHTML = "<h1>" + quiz[4].q + "</h1>";
-//   ansEl1.textContent = quiz[4].o.a;
-//   ansEl2.textContent = quiz[4].o.b;
-//   ansEl3.textContent = quiz[4].o.c;
-//   ansEl4.textContent = quiz[4].o.d;
+var loadQuestion5 = function () {
+  questionContainer.innerHTML =
+    "<h1 class='questionaire'>" + quiz[4].q + "</h1>";
+  ansEl1.textContent = quiz[4].o.a;
+  ansEl2.textContent = quiz[4].o.b;
+  ansEl3.textContent = quiz[4].o.c;
+  ansEl4.textContent = quiz[4].o.d;
 
-//   answerContainer.addEventListener("click", function (event) {
-//     selected = event.target.value;
-//     console.log(selected);
+  answerContainer.addEventListener(
+    "click",
+    function (event) {
+      var ans5 = event.target.value;
+      console.log(ans5);
 
-//     if (selected === quiz[4].s) {
-//       resultContainer.innerHTML = "<h2>Correct!</h2>";
-//       quizEnd();
-//     } else {
-//       resultContainer.innerHTML = "<h2>Wrong!</h2>";
-//       timeLeft = timeLeft - 10;
-//       quizEnd();
-//     }
-//   });
-// };
+      if (ans5 === quiz[4].s) {
+        correctAnswer();
+        console.log(timeLeft);
+        score = timeLeft;
+        console.log(score);
+        quizEnd();
+      } else {
+        wrongAnswer();
+        timeLeft = timeLeft - 10;
+        console.log(timeLeft);
+        score = timeLeft;
+        console.log(score);
+        quizEnd();
+      }
+    },
+    { once: true }
+  );
+};
+
+var correctAnswer = function () {
+  resultContainer.innerHTML = "";
+  let correct = document.createElement("div");
+  correct.className = "results";
+  correct.innerHTML = "<h2>Correct!</h2>";
+  resultContainer.appendChild(correct);
+
+  setTimeout(function () {
+    resultContainer.remove(correct);
+  }, 3000);
+};
+
+var wrongAnswer = function () {
+  resultContainer.innerHTML = "";
+  let incorrect = document.createElement("div");
+  incorrect.className = "results";
+  incorrect.innerHTML = "<h2>Wrong!</h2>";
+  resultContainer.appendChild(incorrect);
+
+  setTimeout(function () {
+    resultContainer.remove(incorrect);
+  }, 3000);
+};
 
 var quizEnd = function () {
-  alert("Quiz has ended");
+  questionContainer.innerHTML = "<h1 class='quiz-done'>All done!</h1>";
+  answerContainer.innerHTML = "";
+  resultContainer.innerHTML = "";
+  timeContainer.textContent = "";
 };
 
 loadPage();
