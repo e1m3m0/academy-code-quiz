@@ -89,3 +89,29 @@
 .questionaire {
   text-align: left;
 }
+
+.submit-button {
+  padding: 7px;
+}
+
+.title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  height: 50px;
+  width: 100%;
+}
+
+.title h1{
+  justify-content: center;
+}
+
+.highscore {
+  padding: 7px;
+}
+
+#scores {
+  width: 100%;
+  padding: 10px 35px;
+  text-align: left;
+}

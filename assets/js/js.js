@@ -1,10 +1,12 @@
 var timeLeft = 0;
 var score = 0;
-
+var countDown = "";
+var timerCountDown;
+var highscore = [];
 var timeContainer = document.querySelector("#counter");
 var questionContainer = document.querySelector("#questions");
 var answerContainer = document.querySelector("#answers");
-var resultContainer = document.querySelector("#results");
+var result = document.querySelector("#results");
 
 var ansEl1 = document.createElement("button");
 ansEl1.className = "btn answer-option";
@@ -20,45 +22,52 @@ ansEl4.className = "btn answer-option";
 ansEl4.value = "d";
 
 var loadPage = function () {
+  loadScore();
   questionContainer.innerHTML =
     "<h1>Coding Quiz Challenge</h1> <br> <p>Try to answer the following code-related questions within the time limit <br> Keep in mind that incorrect answers will penalize your score/time <br>By ten seconds!</p>";
 
   var quizBtn = document.createElement("button");
   quizBtn.className = "btn start-quiz";
   quizBtn.textContent = "Start Quiz";
-  resultContainer.appendChild(quizBtn);
+  questionContainer.appendChild(quizBtn);
 
-  quizBtn.addEventListener("click", function () {
-    console.log("Start Quiz");
-    quizCountdown();
-  });
+  quizBtn.addEventListener(
+    "click",
+    function () {
+      console.log("Start Quiz");
+      timeLeft = 75;
+      questionContainer.innerHTML = "";
+      answerContainer.innerHTML = "";
+
+      loadQuestion1();
+
+      timerCountDown = setInterval(function () {
+        quizCountdown();
+      }, 1000);
+    },
+    { once: true }
+  );
 };
 
 var quizCountdown = function () {
-  timeLeft = 75;
-  questionContainer.innerHTML = "";
-  answerContainer.innerHTML = "";
-  resultContainer.innerHTML = "";
+  if (timeLeft <= 0) {
+    quizEnd();
+  } else if (timeLeft > 1) {
+    timeLeft--;
+    countDown = "Time: " + timeLeft;
+    timeContainer.textContent = countDown;
+  } else if (timeLeft === 1) {
+    timeLeft--;
+    countDown = "Time: " + timeLeft;
+    timeContainer.textContent = countDown;
+    alert("Your time has ended, click ok to see your score.");
 
-  loadQuestion1();
+    quizEnd();
+  }
+};
 
-  var timeInterval = setInterval(function (event) {
-    if (timeLeft <= 0) {
-      clearInterval(timeInterval);
-      quizEnd();
-    } else if (timeLeft > 1) {
-      timeLeft--;
-      var countDown = "Time: " + timeLeft;
-      timeContainer.textContent = countDown;
-    } else if (timeLeft === 1) {
-      timeLeft--;
-      var countDown = "Time: " + timeLeft;
-      timeContainer.textContent = countDown;
-      alert("Your time has ended, click ok to see your score.");
-      clearInterval(timeInterval);
-      quizEnd();
-    }
-  }, 1000);
+var quizTimeout = function () {
+  clearInterval(timerCountDown);
 };
 
 var quiz = [
@@ -139,7 +148,6 @@ var loadQuestion1 = function () {
         console.log(timeLeft);
         score = timeLeft;
         console.log(score);
-
         loadQuestion2();
       } else {
         wrongAnswer();
@@ -290,34 +298,79 @@ var loadQuestion5 = function () {
 };
 
 var correctAnswer = function () {
-  resultContainer.innerHTML = "";
-  let correct = document.createElement("div");
-  correct.className = "results";
-  correct.innerHTML = "<h2>Correct!</h2>";
-  resultContainer.appendChild(correct);
-
+  result.innerHTML = "<h2>Correct!</h2>";
   setTimeout(function () {
-    resultContainer.remove(correct);
-  }, 3000);
+    result.innerHTML = "";
+  }, 1000);
 };
 
 var wrongAnswer = function () {
-  resultContainer.innerHTML = "";
-  let incorrect = document.createElement("div");
-  incorrect.className = "results";
-  incorrect.innerHTML = "<h2>Wrong!</h2>";
-  resultContainer.appendChild(incorrect);
-
+  result.innerHTML = "<h2>Wrong!</h2>";
   setTimeout(function () {
-    resultContainer.remove(incorrect);
-  }, 3000);
+    result.innerHTML = "";
+  }, 1000);
 };
 
 var quizEnd = function () {
-  questionContainer.innerHTML = "<h1 class='quiz-done'>All done!</h1>";
+  quizTimeout();
+  timeContainer.innerHTML = "Time: " + score;
+
   answerContainer.innerHTML = "";
-  resultContainer.innerHTML = "";
-  timeContainer.textContent = "";
+
+  questionContainer.innerHTML =
+    "<h1 class='quiz-done'>All done!</h1><br><p>Your final score is " +
+    score +
+    ".</p><br>";
+  var formSubmit = document.createElement("form");
+  formSubmit.setAttribute("id", "initials-form");
+
+  var labelForm = document.createElement("label");
+  labelForm.innerHTML = "Enter Initials: ";
+
+  formSubmit.appendChild(labelForm);
+
+  var inputForm = document.createElement("input");
+  inputForm.setAttribute("type", "text");
+
+  formSubmit.appendChild(inputForm);
+
+  var submitBtn = document.createElement("button");
+  submitBtn.className = "btn submit-button";
+  submitBtn.textContent = "Submit";
+
+  formSubmit.appendChild(submitBtn);
+
+  questionContainer.appendChild(formSubmit);
+
+  submitBtn.addEventListener("click", function (event) {
+    event.preventDefault();
+    var inputValue = inputForm.value;
+    var scoreObj = {
+      name: inputValue,
+      score: score,
+    }
+
+    highscore.push(scoreObj);
+    saveScore();
+    location.replace("./highscores.html");
+    
+  });
+};
+
+var saveScore = function () {
+  localStorage.setItem("quiz-highscore", JSON.stringify(highscore));
+}
+
+var loadScore = function () {
+  highscoreData = localStorage.getItem("quiz-highscore");
+
+
+  if (!highscoreData) {
+    return false;
+  } else {
+  highscore = JSON.parse(highscoreData);
+  }
+
 };
 
 loadPage();

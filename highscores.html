@@ -10,12 +10,17 @@
   <body>
     <header class="header"></header>
     <main class="page-content">
-      <div class="title" id="title"></div>
-      <h1>High scores</h1>
-      <div class="scores" id="scores"></div>
-      <div class="btn actionable" id="actions">
-        <button class="go-back">Go back</button>
-        <button class="clear-scores">Clear high scores</button>
+      <div class="title" id="title">
+        <h1>High scores</h1>
+      </div>
+      <br />
+      <div id="scores">
+        <ol class="scores"></ol>
+      </div>
+      <br />
+      <div class="actionable" id="actions">
+        <button class="go-back btn highscore">Go back</button>
+        <button class="clear-scores btn highscore">Clear high scores</button>
       </div>
     </main>
     <script src="./assets/js/highscore.js"></script>
