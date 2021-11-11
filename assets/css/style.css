@@ -91,7 +91,7 @@
 }
 
 .submit-button {
-  padding: 7px;
+  padding: 5px;
 }
 
 .title {
@@ -107,11 +107,32 @@
 }
 
 .highscore {
-  padding: 7px;
+  padding: 5px;
 }
 
 #scores {
   width: 100%;
-  padding: 10px 35px;
+  padding: 20px 250px;
   text-align: left;
 }
+#scores ol {
+  list-style-position: inside;
+}
+
+#scores li {
+  color: white;
+  width: 125px;
+  padding: 5px;
+  font-size: larger;
+  background-color: blueviolet;
+}
+
+#initials-form label {
+  font-size: larger;
+}
+
+#initials-form input {
+  height: 30px;
+  width: 200px;
+}
+
