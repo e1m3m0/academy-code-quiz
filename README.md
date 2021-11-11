@@ -2,7 +2,7 @@
   
   * [GitHub Repo](https://github.com/e1m3m0/academy-code-quiz)
 
-  * [Academy Code Quiz](https://e1m3m0.github.io/code-quiz/)
+  * [Academy Code Quiz](https://e1m3m0.github.io/academy-code-quiz/)
 
   ## Description
   --------------
