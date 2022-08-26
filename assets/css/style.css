@@ -36,7 +36,7 @@
 .questions {
   width: 100%;
   padding: 10px 35px;
-  text-align: center;
+  /* text-align: center; */
 }
 .questions p {
   font-size: 20px;
@@ -46,6 +46,7 @@
 .answers {
   width: 100%;
   text-align: center;
+  padding-left: 75px;
   padding-bottom: 15px;
   display: flex;
   flex-wrap: wrap;
@@ -70,7 +71,6 @@
 .answer-option {
   width: 400px;
   height: 60px;
-  margin-right: 500px;
   text-align: left;
   padding-left: 20px;
   margin-top: 5px;
@@ -82,6 +82,10 @@
   background-color: blueviolet;
 }
 
+.questions h1 {
+  text-align: center;
+}
+
 .questions h2 {
   font-size: larger;
   color: blue;
@@ -91,7 +95,8 @@
 }
 
 .submit-button {
-  padding: 5px;
+  padding: 4px;
+  font-size: 19px;
 }
 
 .title {

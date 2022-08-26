@@ -34,7 +34,6 @@ var loadPage = function () {
   quizBtn.addEventListener(
     "click",
     function () {
-      console.log("Start Quiz");
       timeLeft = 75;
       questionContainer.innerHTML = "";
       answerContainer.innerHTML = "";
@@ -124,8 +123,7 @@ var quiz = [
 ];
 
 var loadQuestion1 = function () {
-  console.log("question 1 loaded");
-
+  
   questionContainer.innerHTML =
     "<h1 class='questionaire'>" + quiz[0].q + "</h1>";
   ansEl1.textContent = quiz[0].o.a;
@@ -145,16 +143,12 @@ var loadQuestion1 = function () {
 
       if (ans1 === quiz[0].s) {
         correctAnswer();
-        console.log(timeLeft);
         score = timeLeft;
-        console.log(score);
         loadQuestion2();
       } else {
         wrongAnswer();
         timeLeft = timeLeft - 10;
-        console.log(timeLeft);
         score = timeLeft;
-        console.log(score);
         loadQuestion2();
       }
     },
@@ -163,7 +157,6 @@ var loadQuestion1 = function () {
 };
 
 var loadQuestion2 = function () {
-  console.log("question 2 loaded");
   selected = "";
   questionContainer.innerHTML =
     "<h1 class='questionaire'>" + quiz[1].q + "</h1>";
@@ -176,20 +169,15 @@ var loadQuestion2 = function () {
     "click",
     function (event) {
       var ans2 = event.target.value;
-      console.log(ans2);
 
       if (ans2 === quiz[1].s) {
         correctAnswer();
-        console.log(timeLeft);
         score = timeLeft;
-        console.log(score);
         loadQuestion3();
       } else {
         wrongAnswer();
         timeLeft = timeLeft - 10;
-        console.log(timeLeft);
         score = timeLeft;
-        console.log(score);
         loadQuestion3();
       }
     },
@@ -198,7 +186,6 @@ var loadQuestion2 = function () {
 };
 
 var loadQuestion3 = function () {
-  console.log("question 3 loaded");
   questionContainer.innerHTML =
     "<h1 class='questionaire'>" + quiz[2].q + "</h1>";
   ansEl1.textContent = quiz[2].o.a;
@@ -210,20 +197,15 @@ var loadQuestion3 = function () {
     "click",
     function (event) {
       var ans3 = event.target.value;
-      console.log(ans3);
 
       if (ans3 === quiz[2].s) {
         correctAnswer();
-        console.log(timeLeft);
         score = timeLeft;
-        console.log(score);
         loadQuestion4();
       } else {
         wrongAnswer();
         timeLeft = timeLeft - 10;
-        console.log(timeLeft);
         score = timeLeft;
-        console.log(score);
         loadQuestion4();
       }
     },
@@ -243,20 +225,15 @@ var loadQuestion4 = function () {
     "click",
     function (event) {
       var ans4 = event.target.value;
-      console.log(ans4);
 
       if (ans4 === quiz[3].s) {
         correctAnswer();
-        console.log(timeLeft);
         score = timeLeft;
-        console.log(score);
         loadQuestion5();
       } else {
         wrongAnswer();
         timeLeft = timeLeft - 10;
-        console.log(timeLeft);
         score = timeLeft;
-        console.log(score);
         loadQuestion5();
       }
     },
@@ -276,20 +253,15 @@ var loadQuestion5 = function () {
     "click",
     function (event) {
       var ans5 = event.target.value;
-      console.log(ans5);
 
       if (ans5 === quiz[4].s) {
         correctAnswer();
-        console.log(timeLeft);
         score = timeLeft;
-        console.log(score);
         quizEnd();
       } else {
         wrongAnswer();
         timeLeft = timeLeft - 10;
-        console.log(timeLeft);
         score = timeLeft;
-        console.log(score);
         quizEnd();
       }
     },
